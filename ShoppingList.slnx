@@ -1,0 +1,22 @@
+<Solution>
+  <Folder Name="/aspire/">
+    <Project Path="aspire/ShoppingList.AppHost/ShoppingList.AppHost.csproj" />
+    <Project Path="aspire/ShoppingList.ServiceDefaults/ShoppingList.ServiceDefaults.csproj" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path=".config\dotnet-tools.json" />
+    <File Path=".editorconfig" />
+    <File Path=".gitignore" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Build.targets" />
+    <File Path="Directory.Packages.props" />
+    <File Path="global.json" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/ShoppingList.Client/ShoppingList.Client.csproj" />
+    <Project Path="src/ShoppingList.Data/ShoppingList.Data.csproj" />
+    <Project Path="src/ShoppingList.Server/ShoppingList.Server.csproj" />
+    <Project Path="src/ShoppingList.Shared/ShoppingList.Shared.csproj" />
+  </Folder>
+</Solution>
