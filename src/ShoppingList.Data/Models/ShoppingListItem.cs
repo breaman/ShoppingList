@@ -6,6 +6,7 @@ public class ShoppingListItem : FingerPrintEntityBase
 {
     public bool IsPicked { get; set; }
     public string Name { get; set; } = string.Empty;
+    public bool IsDeleted { get; set; }
     public int ShoppingListId { get; set; }
     public ShoppingList? ShoppingList { get; set; }
 
@@ -16,6 +17,7 @@ public class ShoppingListItem : FingerPrintEntityBase
             ShoppingListItemId = Id,
             Name = Name,
             IsPicked = IsPicked,
+            IsDeleted = IsDeleted
         };
     }
 }

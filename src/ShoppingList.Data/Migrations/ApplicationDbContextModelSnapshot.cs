@@ -258,6 +258,9 @@ namespace ShoppingList.Data.Migrations
                     b.Property<DateTime?>("CreatedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsPicked")
                         .HasColumnType("bit");
 

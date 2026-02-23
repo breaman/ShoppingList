@@ -12,7 +12,7 @@ using ShoppingList.Data.Models;
 namespace ShoppingList.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260222215751_InitialDb")]
+    [Migration("20260223184905_InitialDb")]
     partial class InitialDb
     {
         /// <inheritdoc />
@@ -260,6 +260,9 @@ namespace ShoppingList.Data.Migrations
 
                     b.Property<DateTime?>("CreatedOn")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsPicked")
                         .HasColumnType("bit");

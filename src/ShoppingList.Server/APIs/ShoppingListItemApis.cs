@@ -60,6 +60,26 @@ public static class ShoppingListItemApis
                 
                 return TypedResults.Ok(dto);
             });
+        
+        group.MapDelete("/{shoppingListItemId:int}",
+            async Task<Results<Ok<ShoppingListItemDto>, NotFound>>(int shoppingListItemId,
+                ApplicationDbContext dbContext, IHubContext<ShoppingListHub> hubContext) =>
+            {
+                var updatedItem = await dbContext.ShoppingListItems.FindAsync(shoppingListItemId);
+                if (updatedItem is null)
+                {
+                    return TypedResults.NotFound();
+                }
+
+                updatedItem.IsDeleted = true;
+                
+                await dbContext.SaveChangesAsync();
+                
+                var dto = updatedItem.ToDto();
+                await hubContext.Clients.Group(updatedItem.ShoppingListId.ToString()).SendAsync("shoppingListItemUpdated", dto);
+                
+                return TypedResults.Ok(dto);
+            });
 
         return group;
     }

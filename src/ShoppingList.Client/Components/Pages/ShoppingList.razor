@@ -3,16 +3,21 @@
 
 <h3>@(ShoppingListDto?.Name)</h3>
 
-@foreach (var item in ShoppingListItems ?? [])
+@foreach (var item in ShoppingListItems?.Where(i => !i.IsDeleted) ?? [])
 {
-    <div class="row">
-        <input type="checkbox" class="form-check" checked="@item.IsPicked" @onchange="@(args => ToggleItemAsync(item, args))"/>
-        <span>@item.Name</span>
+    <div class="mt-2">
+        <div class="form-check" tabindex="0" @onkeyup="@(args => HandleItemKeyUpAsync(item, args))">
+            <input type="checkbox" class="form-check-input" checked="@item.IsPicked" @onchange="@(args => ToggleItemAsync(item, args))"/>
+            <label class="form-check-label @(item.IsPicked ? "text-decoration-line-through" : "")">@item.Name</label>
+            <span class="text-danger float-end" role="button" @onclick="@(_ => DeleteItemAsync(item))">
+                <i class="bi bi-trash3-fill text-danger lead"></i>
+            </span>
+        </div>
     </div>
 }
 
-<div class="form-floating mb-3">
-    <InputText id="recipe-name" class="form-control" @bind-Value="ItemName" />
-    <label class="form-label" for="recipe-name">Name</label>
+<div class="form-floating my-3">
+    <InputText id="item-name" class="form-control" @bind-Value="ItemName" placeholder="" @onkeyup="HandleItemNameKeyUpAsync" @bind:event="oninput" />
+    <label class="form-label" for="item-name">Name</label>
 </div>
 <button class="btn btn-primary" @onclick="AddItemAsync">Add Item</button>

@@ -1,5 +1,6 @@
 using System.Net.Http.Json;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.SignalR.Client;
 using ShoppingList.Shared.DTOs;
 using ShoppingList.Shared.Services;
@@ -12,7 +13,7 @@ public partial class ShoppingList : ComponentBase
     
     [Parameter]
     public int Id { get; set; }
-    public string ItemName { get; set; } = string.Empty;
+    public string? ItemName { get; set; }
     
     [PersistentState]
     public List<ShoppingListItemDto>? ShoppingListItems { get; set; }
@@ -50,6 +51,7 @@ public partial class ShoppingList : ComponentBase
                 {
                     item.Name = shoppingListItem.Name;
                     item.IsPicked = shoppingListItem.IsPicked;
+                    item.IsDeleted = shoppingListItem.IsDeleted;
                 }
 
                 InvokeAsync(StateHasChanged);
@@ -66,16 +68,40 @@ public partial class ShoppingList : ComponentBase
         await HttpClient.PutAsJsonAsync($"/api/ShoppingListItems/{Id}", item);
     }
     
+    private async Task HandleItemNameKeyUpAsync(KeyboardEventArgs args)
+    {
+        if (string.Equals(args.Key, "Enter", StringComparison.Ordinal))
+        {
+            await AddItemAsync();
+        }
+    }
+    
+    private async Task HandleItemKeyUpAsync(ShoppingListItemDto item, KeyboardEventArgs args)
+    {
+        if (string.Equals(args.Key, "Backspace", StringComparison.Ordinal) || string.Equals(args.Key, "Delete", StringComparison.Ordinal))
+        {
+            await DeleteItemAsync(item);
+        }
+    }
+    
     private async Task AddItemAsync()
     {
-        Logger.LogInformation("Adding new shopping list item");
-        var newItem = new ShoppingListItemDto()
+        if (!string.IsNullOrWhiteSpace(ItemName))
         {
-            ShoppingListItemId = Id,
-            Name = ItemName
-        };
-        
-        ItemName = string.Empty;
-        await HttpClient.PostAsJsonAsync($"/api/ShoppingListItems/{Id}", newItem);
+            Logger.LogInformation("Adding new shopping list item");
+            var newItem = new ShoppingListItemDto()
+            {
+                ShoppingListItemId = Id,
+                Name = ItemName
+            };
+
+            ItemName = null;
+            await HttpClient.PostAsJsonAsync($"/api/ShoppingListItems/{Id}", newItem);
+        }
+    }
+
+    private async Task DeleteItemAsync(ShoppingListItemDto item)
+    {
+        await HttpClient.DeleteAsync($"/api/ShoppingListItems/{item.ShoppingListItemId}");
     }
 }
