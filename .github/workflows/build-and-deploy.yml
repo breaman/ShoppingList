@@ -80,15 +80,15 @@ jobs:
           --self-contained
           --force
 
-      # ── Upload artefacts ──────────────────────────────────────────────────
-      - name: Upload application artefact
+      # ── Upload artifacts ──────────────────────────────────────────────────
+      - name: Upload application artifact
         uses: actions/upload-artifact@v4
         with:
           name: app
           path: ${{ github.workspace }}/artifacts/app
           retention-days: 7
 
-      - name: Upload EF bundle artefact
+      - name: Upload EF bundle artifact
         uses: actions/upload-artifact@v4
         with:
           name: efbundle
@@ -112,13 +112,13 @@ jobs:
     environment: production
 
     steps:
-      - name: Download application artefact
+      - name: Download application artifact
         uses: actions/download-artifact@v4
         with:
           name: app
           path: ./artifacts/app
 
-      - name: Download EF bundle artefact
+      - name: Download EF bundle artifact
         uses: actions/download-artifact@v4
         with:
           name: efbundle
