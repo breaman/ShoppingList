@@ -44,11 +44,6 @@ jobs:
       - name: Restore .NET dependencies
         run: dotnet restore
 
-      # Restore only the server project with the target RID so the assets
-      # file includes the win-x86 target required by the publish step.
-      - name: Restore server project (win-x86)
-        run: dotnet restore src/ShoppingList.Server/ShoppingList.Server.csproj -r win-x86
-
       # Compile SASS to production-minified CSS before the dotnet build so
       # the output is included in the published artefact automatically.
       - name: Compile SASS (production)
@@ -67,7 +62,6 @@ jobs:
           -r win-x86
           --self-contained
           --configuration Release
-          --no-restore
           --output ${{ github.workspace }}/artifacts/app
 
       # ── EF Migrations Bundle ──────────────────────────────────────────────
