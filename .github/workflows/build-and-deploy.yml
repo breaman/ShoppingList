@@ -126,12 +126,12 @@ jobs:
 
       # The bundle is a compiled Linux binary when built on ubuntu-latest.
       - name: Make EF bundle executable
-        run: chmod +x ./artifacts/efbundle
+        run: chmod +x ./artifacts/efbundle/efbundle
 
       # Run pending migrations against the remote database before swapping
       # the application files so the schema is always updated first.
       - name: Apply EF migrations
-        run: ./artifacts/efbundle --connection "${{ secrets.DATABASE_CONNECTION_STRING }}"
+        run: ./artifacts/efbundle/efbundle --connection "${{ secrets.DATABASE_CONNECTION_STRING }}"
 
       # Deploy published application files to the FTP server.
       - name: Deploy via FTP
