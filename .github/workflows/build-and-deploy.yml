@@ -39,8 +39,15 @@ jobs:
         run: npm install
 
       # ── .NET restore & SASS ───────────────────────────────────────────────
+      # Restore the full solution without a RID so the Blazor WASM client
+      # project restores correctly (Mono win-x86 packages don't exist).
       - name: Restore .NET dependencies
         run: dotnet restore
+
+      # Restore only the server project with the target RID so the assets
+      # file includes the win-x86 target required by the publish step.
+      - name: Restore server project (win-x86)
+        run: dotnet restore src/ShoppingList.Server/ShoppingList.Server.csproj -r win-x86
 
       # Compile SASS to production-minified CSS before the dotnet build so
       # the output is included in the published artefact automatically.
@@ -49,13 +56,18 @@ jobs:
         run: npm run sass-prod
 
       # ── Build & Publish ───────────────────────────────────────────────────
+      # Build the whole solution without a RID so the WASM client compiles
+      # correctly for browser-wasm.
       - name: Build solution
-        run: dotnet build --configuration Release --no-restore -r win-x86 --self-contained
+        run: dotnet build --configuration Release --no-restore
 
       - name: Publish web application
         run: >
           dotnet publish src/ShoppingList.Server/ShoppingList.Server.csproj
-          --no-build
+          -r win-x86
+          --self-contained
+          --configuration Release
+          --no-restore
           --output ${{ github.workspace }}/artifacts/app
 
       # ── EF Migrations Bundle ──────────────────────────────────────────────
