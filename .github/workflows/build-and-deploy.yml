@@ -55,9 +55,6 @@ jobs:
       - name: Publish web application
         run: >
           dotnet publish src/ShoppingList.Server/ShoppingList.Server.csproj
-          -r win-x86
-          --self-contained
-          --configuration Release
           --no-build
           --output ${{ github.workspace }}/artifacts/app
 
