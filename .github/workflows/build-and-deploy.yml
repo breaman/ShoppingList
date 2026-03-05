@@ -40,7 +40,7 @@ jobs:
 
       # ── .NET restore & SASS ───────────────────────────────────────────────
       - name: Restore .NET dependencies
-        run: dotnet restore
+        run: dotnet restore -r win-x86
 
       # Compile SASS to production-minified CSS before the dotnet build so
       # the output is included in the published artefact automatically.
@@ -50,7 +50,7 @@ jobs:
 
       # ── Build & Publish ───────────────────────────────────────────────────
       - name: Build solution
-        run: dotnet build --configuration Release --no-restore
+        run: dotnet build --configuration Release --no-restore -r win-x86 --self-contained
 
       - name: Publish web application
         run: >
