@@ -30,7 +30,7 @@ jobs:
         working-directory: ./src/ShoppingList.Server
 
       - name: Build ShoppingList Web Elements
-        run: npm sass-prod
+        run: npm run sass-prod
         working-directory: ./src/ShoppingList.Server
 
       - name: Build ShoppingList.Web
