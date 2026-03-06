@@ -17,7 +17,7 @@
 }
 
 <div class="form-floating my-3">
-    <InputText id="item-name" class="form-control" @bind-Value="ItemName" placeholder="" @onkeyup="@(args => HandleItemNameKeyUpAsync(args))" @bind:event="oninput" />
+    <InputText id="item-name" class="form-control" @bind-Value="ItemName" placeholder="" @onkeyup="@(args => HandleItemNameKeyUpAsync(args))" />
     <label class="form-label" for="item-name">Name</label>
 </div>
 <button class="btn btn-primary" @onclick="AddItemAsync">Add Item</button>
