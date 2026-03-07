@@ -3,7 +3,7 @@
 
 <h3>@(ShoppingListDto?.Name)</h3>
 
-@foreach (var item in ShoppingListItems?.Where(i => !i.IsDeleted) ?? [])
+@foreach (var item in ShoppingListItems?.Where(i => !i.IsDeleted).OrderBy(i => i.Name).ToList() ?? [])
 {
     <div class="mt-2">
         <div class="form-check" tabindex="0" @onkeyup="@(args => HandleItemKeyUpAsync(item, args))">
