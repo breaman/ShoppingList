@@ -7,4 +7,8 @@ public interface IShoppingListService
     public Task<List<ShoppingListDto>> GetShoppingListsAsync();
 
     public Task<ShoppingListDto?> GetShoppingListByIdAsync(int id);
+
+    public Task<ShoppingListDto?> UpdateShoppingListAsync(ShoppingListDto shoppingListDto);
+
+    public Task DeleteShoppingListAsync(int id);
 }

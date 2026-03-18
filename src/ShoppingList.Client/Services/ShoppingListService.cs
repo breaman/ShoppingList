@@ -15,4 +15,17 @@ public class ShoppingListService(HttpClient httpClient) : IShoppingListService
     {
         return await httpClient.GetFromJsonAsync<ShoppingListDto>($"/api/ShoppingLists/{id}");
     }
+
+    public async Task<ShoppingListDto?> UpdateShoppingListAsync(ShoppingListDto shoppingListDto)
+    {
+        var response = await httpClient.PutAsJsonAsync($"/api/ShoppingLists/{shoppingListDto.ShoppingListId}", shoppingListDto);
+        return response.IsSuccessStatusCode
+            ? await response.Content.ReadFromJsonAsync<ShoppingListDto>()
+            : null;
+    }
+
+    public async Task DeleteShoppingListAsync(int id)
+    {
+        await httpClient.DeleteAsync($"/api/ShoppingLists/{id}");
+    }
 }

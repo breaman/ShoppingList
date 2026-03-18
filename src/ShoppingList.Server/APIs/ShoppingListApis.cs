@@ -22,6 +22,18 @@ public static class ShoppingListApis
             return shoppingList is not null ? TypedResults.Ok(shoppingList) : TypedResults.NotFound();
         });
 
+        group.MapPut("/{id}", async Task<Results<Ok<ShoppingListDto>, NotFound>> (int id, ShoppingListDto shoppingListDto, IShoppingListService shoppingListService) =>
+        {
+            var updated = await shoppingListService.UpdateShoppingListAsync(shoppingListDto);
+            return updated is not null ? TypedResults.Ok(updated) : TypedResults.NotFound();
+        });
+
+        group.MapDelete("/{id}", async Task<NoContent> (int id, IShoppingListService shoppingListService) =>
+        {
+            await shoppingListService.DeleteShoppingListAsync(id);
+            return TypedResults.NoContent();
+        });
+
         return group;
     }
 }
