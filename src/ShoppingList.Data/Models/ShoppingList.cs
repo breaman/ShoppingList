@@ -5,6 +5,7 @@ namespace ShoppingList.Data.Models;
 public class ShoppingList : FingerPrintEntityBase
 {
     public string Name { get; set; } = string.Empty;
+    public ICollection<ShoppingListItem> Items { get; set; } = [];
     
     public ShoppingListDto ToDto()
     {
