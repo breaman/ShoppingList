@@ -3,9 +3,9 @@
 
 <h3>@(ShoppingListDto?.Name)</h3>
 
-@foreach (var item in ShoppingListItems?.Where(i => !i.IsDeleted).OrderBy(i => i.Name).ToList() ?? [])
+@foreach (var item in ShoppingListItems?.Where(i => !i.IsDeleted).OrderBy(i => i.IsPicked).ThenBy(i => i.Name).ToList() ?? [])
 {
-    <div class="mt-2">
+    <div class="mt-2" @key="item.ShoppingListItemId">
         <div class="form-check" tabindex="0" @onkeyup="@(args => HandleItemKeyUpAsync(item, args))">
             <input type="checkbox" class="form-check-input" checked="@item.IsPicked" @onchange="@(args => ToggleItemAsync(item, args))"/>
             <label class="form-check-label @(item.IsPicked ? "text-decoration-line-through" : "")">@item.Name</label>
